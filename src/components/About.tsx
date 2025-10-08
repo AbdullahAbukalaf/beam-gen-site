@@ -28,9 +28,9 @@ export const About = () => {
   const [ref, isInView] = useInView();
 
   return (
-    <section id="about" className="py-24 bg-background">
+    <section id="about" className="py-24 bg-[#f1eeee]">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className="max-w-[900px] mx-auto">
+        <div ref={ref} className=" mx-auto">
           {/* About Us */}
           <div className={`mb-16 ${isInView ? "animate-fade-up" : "opacity-0"}`}>
             <h2 className="text-4xl md:text-5xl font-black text-secondary mb-8">

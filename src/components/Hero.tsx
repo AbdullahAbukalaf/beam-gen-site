@@ -80,7 +80,7 @@ export const Hero = () => {
               size="lg"
               variant="outline"
               onClick={() => scrollToSection("projects")}
-              className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm shadow-lg"
+              className="border-2 bg-accent-foreground border-primary-foreground text-primary-foreground hover:bg-primary-foreground backdrop-blur-sm shadow-lg"
             >
               <FileText className="mr-2 h-5 w-5" />
               View Projects
@@ -90,11 +90,13 @@ export const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
+      <a href="#about">
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
         <div className="w-6 h-10 border-2 border-primary-foreground/50 rounded-full flex justify-center p-2">
-          <div className="w-1 h-3 bg-primary-foreground/50 rounded-full" />
+          <div className="w-1 h-3 bg-primary-foreground/50 rounded-full" ></div>
         </div>
       </div>
+      </a>
 
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </section>

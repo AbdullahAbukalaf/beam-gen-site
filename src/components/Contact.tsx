@@ -22,13 +22,13 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#1B1B1B]">
+    <section id="contact" className="py-24 bg-[#f1eeee]">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className={`max-w-[900px] mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
-          <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-4 text-center">
+        <div ref={ref} className={` mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
+          <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">
             CONTACT US
           </h2>
-          <p className="text-lg text-secondary-foreground text-center mb-16">
+          <p className="text-lg text-dark text-center mb-16">
             Ready to start your project? Get in touch with us today
           </p>
 
@@ -36,7 +36,7 @@ export const Contact = () => {
             {/* Contact Info */}
             <div className="space-y-8">
               <div>
-                <h3 className="text-2xl font-bold text-primary-foreground mb-6">
+                <h3 className="text-2xl font-bold text-dark mb-6">
                   Get In Touch
                 </h3>
                 
@@ -72,7 +72,7 @@ export const Contact = () => {
                       <Phone className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="font-medium text-primary-foreground mb-1">Phone</p>
+                      <p className="font-medium text-dark mb-1">Phone</p>
                       <p className="text-sm text-muted-foreground">+966 558303308</p>
                       <p className="text-sm text-muted-foreground">+966 53 54 12221</p>
                       <p className="text-sm text-muted-foreground">+966 550748180</p>
@@ -84,7 +84,7 @@ export const Contact = () => {
                       <Mail className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="font-medium text-primary-foreground mb-1">Email</p>
+                      <p className="font-medium text-dark mb-1">Email</p>
                       <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
                       <p className="text-sm text-muted-foreground">Abdulaziz@smartbeams.net</p>
                       <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
@@ -96,7 +96,7 @@ export const Contact = () => {
                       <MapPin className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="font-medium text-primary-foreground mb-1">Location</p>
+                      <p className="font-medium text-dark mb-1">Location</p>
                       <p className="text-sm text-secondary-foreground">
                         Dammam - Dallah Industrial, KSA
                       </p>

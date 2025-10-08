@@ -105,13 +105,13 @@ export const Projects = () => {
   const [ref, isInView] = useInView();
 
   return (
-    <section id="projects" className="py-24 bg-[#1B1B1B]">
+    <section id="projects" className="py-24 bg-[#f1eeee]">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className={`max-w-[900px] mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
-          <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-4 text-center">
+        <div ref={ref} className={` mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
+          <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">
             OUR PROJECTS
           </h2>
-          <p className="text-lg text-secondary-foreground text-center mb-16">
+          <p className="text-lg text-dark text-center mb-16">
             Delivering excellence across diverse industries with proven track record
           </p>
 

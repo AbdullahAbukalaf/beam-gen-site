@@ -38,13 +38,13 @@ export const Services = () => {
   const [ref, isInView] = useInView();
 
   return (
-    <section id="services" className="py-24 bg-[#1B1B1B]">
+    <section id="services" className="py-24 bg-background">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className={`max-w-[900px] mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
-          <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-4 text-center">
+        <div ref={ref} className={` mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
+          <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">
             OUR SERVICES
           </h2>
-          <p className="text-lg text-secondary-foreground text-center mb-16">
+          <p className="text-lg text-dark text-center mb-16">
             We offer a wide range of products & services in the field of steel structures, 
             carefully designed to suit various industrial applications
           </p>
