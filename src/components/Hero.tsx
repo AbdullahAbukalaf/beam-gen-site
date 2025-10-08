@@ -1,8 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { QuoteModal } from "./QuoteModal";
+import { useState, useEffect } from "react";
 
 export const Hero = () => {
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -10,14 +21,15 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background with overlay */}
+      {/* Background with parallax and dark overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroBg}
           alt="Smart Beams Steel Factory"
           className="w-full h-full object-cover"
+          style={{ transform: `translateY(${scrollY * 0.5}px)` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1B1B1B]/95 via-[#1B1B1B]/90 to-[#1B1B1B]/70" />
       </div>
 
       {/* Diamond decorations */}
@@ -26,7 +38,7 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="container relative z-10 px-6 lg:px-8 py-20">
-        <div className="max-w-4xl animate-fade-up">
+        <div className="max-w-[900px] mx-auto animate-fade-up">
           {/* Logo/Brand Name */}
           <div className="mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-primary mb-2">
@@ -55,11 +67,11 @@ export const Hero = () => {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 animate-slide-in-right" style={{ animationDelay: "200ms" }}>
             <Button
               size="lg"
-              onClick={() => scrollToSection("contact")}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              onClick={() => setQuoteModalOpen(true)}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
             >
               Get a Quote
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -83,6 +95,8 @@ export const Hero = () => {
           <div className="w-1 h-3 bg-primary-foreground/50 rounded-full" />
         </div>
       </div>
+
+      <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </section>
   );
 };

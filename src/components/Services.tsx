@@ -38,13 +38,13 @@ export const Services = () => {
   const [ref, isInView] = useInView();
 
   return (
-    <section id="services" className="py-24 bg-background">
+    <section id="services" className="py-24 bg-[#1B1B1B]">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className={`${isInView ? "animate-fade-up" : "opacity-0"}`}>
-          <h2 className="text-4xl md:text-5xl font-black text-secondary mb-4 text-center">
+        <div ref={ref} className={`max-w-[900px] mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
+          <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-4 text-center">
             OUR SERVICES
           </h2>
-          <p className="text-lg text-muted-foreground text-center mb-16 max-w-3xl mx-auto">
+          <p className="text-lg text-secondary-foreground text-center mb-16">
             We offer a wide range of products & services in the field of steel structures, 
             carefully designed to suit various industrial applications
           </p>
@@ -82,8 +82,8 @@ export const Services = () => {
           </div>
 
           {/* Materials */}
-          <div className={`max-w-4xl mx-auto ${isInView ? "animate-fade-up delay-300" : "opacity-0"}`}>
-            <h3 className="text-2xl font-bold text-secondary mb-6 text-center">
+          <div className={`${isInView ? "animate-fade-up" : "opacity-0"}`} style={{ animationDelay: "300ms" }}>
+            <h3 className="text-2xl font-bold text-primary-foreground mb-6 text-center">
               SERVICES FOR THE FOLLOWING MATERIALS
             </h3>
             <div className="flex flex-wrap justify-center gap-4">
