@@ -38,7 +38,7 @@ export const Contact = () => {
       formDataToSend.append('_template', 'table');
       
       // Send via fetch to stay on the same page
-      const response = await fetch('https://formsubmit.co/ajax/sales@smartbeams.net', {
+      const response = await fetch('https://formsubmit.co/ajax/moathkoush@gmail.com', {
         method: 'POST',
         body: formDataToSend,
         headers: {
@@ -92,7 +92,7 @@ export const Contact = () => {
                     Call Now
                   </Button>
                   <Button
-                    onClick={() => window.location.href = 'mailto:sales@smartbeams.net'}
+                    onClick={() => window.location.href = 'mailto:moathkoush@gmail.com'}
                     className="flex-1 min-w-[140px]"
                     variant="secondary"
                   >
@@ -126,10 +126,9 @@ export const Contact = () => {
                     </div>
                     <div>
                       <p className="font-medium text-dark mb-1">Email</p>
-                      <p className="text-sm text-muted-foreground">abdulaziz@smartbeams.net</p>
-                        <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
-                       <p className="text-sm text-muted-foreground">sales@smartbeams.net</p>
-                        <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
+                      <p className="text-sm text-muted-foreground">moathkoush@gmail.com</p>
+                      <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
+                      <p className="text-sm text-muted-foreground">Abdulaziz@smartbeams.net</p>
                     </div>
                   </div>
 
@@ -144,7 +143,7 @@ export const Contact = () => {
                       </p>
                       <div className="flex gap-2 mt-2">
                         <Button
-                          onClick={() => window.open('https://maps.app.goo.gl/D0NFasRKgK8eKiOHi', '_blank')}
+                          onClick={() => window.open('https://www.google.com/maps?q=26.451778,50.016528', '_blank')}
                           variant="link"
                           className="p-0 h-auto text-primary hover:text-primary/80"
                         >
@@ -170,7 +169,7 @@ export const Contact = () => {
                     <p className="text-sm font-medium text-dark mb-3">Scan to Get Directions</p>
                     <div className="inline-block p-4 bg-white rounded-lg">
                       <img 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://maps.app.goo.gl/D0NFasRKgK8eKiOHi')}`}
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://www.google.com/maps?q=26.451778,50.016528')}`}
                         alt="Location QR Code"
                         className="w-48 h-48"
                       />
@@ -184,7 +183,7 @@ export const Contact = () => {
                 {/* Google Map */}
                 <div className="mt-6 rounded-lg overflow-hidden border-2 border-primary/20">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.2963847583786!2d50.20471!3d26.37621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDIyJzM0LjQiTiA1MMKwMTInMTcuMCJF!5e0!3m2!1sen!2ssa!4v1234567890"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.296384758379!2d50.20471!3d26.37621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49f8c5b7d5c5c5%3A0x5c5c5c5c5c5c5c5c!2sDammam%20-%20Dallah%20Industrial%2C%20Saudi%20Arabia!5e0!3m2!1sen!2s!4v1234567890"
                     width="100%"
                     height="250"
                     style={{ border: 0 }}
