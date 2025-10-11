@@ -45,11 +45,14 @@ export const Navigation = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="flex items-center gap-2 group"
             >
-              <div className="text-xl font-black">
-                <span className="text-primary">SMART</span>
-                <span className={isScrolled ? "text-foreground" : "text-primary-foreground"}>
-                  {" "}BEAMS
-                </span>
+              <div className="flex items-center space-x-2">
+                <img
+                  src={isScrolled ? "/logos/lofo2.png" : "/logos/lofo.png"}
+                  alt="SBSIF Logo"
+                  className={`h-10 w-auto transition-all duration-300 ${
+                    isScrolled ? "brightness-100" : "brightness-125 bg-black rounded-lg p-1"
+                  }`}
+                />
               </div>
             </button>
 
@@ -67,9 +70,18 @@ export const Navigation = () => {
                 </button>
               ))}
               <Button
+                onClick={() => {
+                  window.open('/company-profile.pdf', '_blank');
+                }}
+                size="sm"
+                variant="outline"
+                className="ml-4"
+              >
+                Company Profile
+              </Button>
+              <Button
                 onClick={() => scrollToSection("#contact")}
                 size="sm"
-                className="ml-4"
               >
                 Get Quote
               </Button>
@@ -102,6 +114,16 @@ export const Navigation = () => {
                 {item.name}
               </button>
             ))}
+            <Button
+              onClick={() => {
+                window.open('/company-profile.pdf', '_blank');
+              }}
+              className="w-full"
+              variant="outline"
+              size="lg"
+            >
+              Company Profile
+            </Button>
             <Button
               onClick={() => scrollToSection("#contact")}
               className="w-full"
