@@ -34,8 +34,7 @@ const clients: ClientLogo[] = [
 const certifications = [
   "ISO 9001:2015 - Quality Management System",
   "ISO 14001:2015 - Environmental Management System",
-  "Design & Steel Fabrication Certified",
-  "CNC Laser Cutting Excellence",
+  ""
 ];
 
 // 👇 set this to false if you don't want captions under logos in the marquee
