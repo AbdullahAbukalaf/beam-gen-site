@@ -45,13 +45,24 @@ export const Navigation = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="flex items-center gap-2 group"
             >
-              <div className="text-xl font-black">
+          {/* <div className="text-xl font-black">
                 <span className="text-primary">SMART</span>
                 <span className={isScrolled ? "text-foreground" : "text-primary-foreground"}>
                   {" "}BEAMS
                 </span>
-              </div>
+              </div> */} 
+              <div className="flex items-center space-x-2">
+            <img
+              src={isScrolled ? "/public/logos/lofo2.png" : "/public/logos/lofo.png"}
+              alt="SBSIF Logo"
+              className={`h-10 w-auto transition-all duration-300 ${
+                isScrolled ? "brightness-100" : "brightness-125 bg-black rounded-lg p-1"
+              }`}
+            />
+          </div>
+            
             </button>
+      
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">

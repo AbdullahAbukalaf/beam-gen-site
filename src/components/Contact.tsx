@@ -1,30 +1,71 @@
-import { Mail, MapPin, Phone, Navigation, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Phone, Navigation, MessageCircle, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useInView } from "@/hooks/useInView";
 import { toast } from "sonner";
 import { useState } from "react";
 
 export const Contact = () => {
-  const [ref, isInView] = useInView();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
+  const [showQR, setShowQR] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you! We'll get back to you soon.");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Create form data
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone || 'Not provided');
+      formDataToSend.append('message', formData.message);
+      formDataToSend.append('_subject', `New Contact Form Submission from ${formData.name}`);
+      formDataToSend.append('_captcha', 'false');
+      formDataToSend.append('_template', 'table');
+      
+      // Send via fetch to stay on the same page
+      const response = await fetch('https://formsubmit.co/ajax/sales@smartbeams.net', {
+        method: 'POST',
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="contact" className="py-24 bg-[#f1eeee]">
       <div className="container px-6 lg:px-8">
-        <div ref={ref} className={` mx-auto ${isInView ? "animate-fade-up" : "opacity-0"}`}>
+        <div className="max-auto opacity-100">
           <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">
             CONTACT US
           </h2>
@@ -51,7 +92,7 @@ export const Contact = () => {
                     Call Now
                   </Button>
                   <Button
-                    onClick={() => window.location.href = 'mailto:info@smartbeams.net'}
+                    onClick={() => window.location.href = 'mailto:sales@smartbeams.net'}
                     className="flex-1 min-w-[140px]"
                     variant="secondary"
                   >
@@ -85,9 +126,10 @@ export const Contact = () => {
                     </div>
                     <div>
                       <p className="font-medium text-dark mb-1">Email</p>
-                      <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
-                      <p className="text-sm text-muted-foreground">Abdulaziz@smartbeams.net</p>
-                      <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
+                      <p className="text-sm text-muted-foreground">abdulaziz@smartbeams.net</p>
+                        <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
+                       <p className="text-sm text-muted-foreground">sales@smartbeams.net</p>
+                        <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
                     </div>
                   </div>
 
@@ -95,22 +137,49 @@ export const Contact = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <MapPin className="h-6 w-6 text-primary" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-dark mb-1">Location</p>
                       <p className="text-sm text-secondary-foreground">
                         Dammam - Dallah Industrial, KSA
                       </p>
-                      <Button
-                        onClick={() => window.open('https://maps.google.com/?q=Dammam+Dallah+Industrial+KSA', '_blank')}
-                        variant="link"
-                        className="p-0 h-auto mt-2 text-primary hover:text-primary/80"
-                      >
-                        <Navigation className="h-3 w-3 mr-1" />
-                        Get Directions
-                      </Button>
+                      <div className="flex gap-2 mt-2">
+                        <Button
+                          onClick={() => window.open('https://maps.app.goo.gl/D0NFasRKgK8eKiOHi', '_blank')}
+                          variant="link"
+                          className="p-0 h-auto text-primary hover:text-primary/80"
+                        >
+                          <Navigation className="h-3 w-3 mr-1" />
+                          Get Directions
+                        </Button>
+                        <Button
+                          onClick={() => setShowQR(!showQR)}
+                          variant="link"
+                          className="p-0 h-auto text-primary hover:text-primary/80"
+                        >
+                          <QrCode className="h-3 w-3 mr-1" />
+                          {showQR ? 'Hide' : 'Show'} QR Code
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                {/* QR Code for Location */}
+                {showQR && (
+                  <div className="mt-4 p-6 rounded-lg bg-white border-2 border-primary/20 text-center transition-all duration-300">
+                    <p className="text-sm font-medium text-dark mb-3">Scan to Get Directions</p>
+                    <div className="inline-block p-4 bg-white rounded-lg">
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://maps.app.goo.gl/D0NFasRKgK8eKiOHi')}`}
+                        alt="Location QR Code"
+                        className="w-48 h-48"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Scan with your phone camera
+                    </p>
+                  </div>
+                )}
 
                 {/* Google Map */}
                 <div className="mt-6 rounded-lg overflow-hidden border-2 border-primary/20">
@@ -130,7 +199,7 @@ export const Contact = () => {
 
             {/* Contact Form */}
             <div className="bg-card/50 border-2 border-primary/20 rounded-xl p-8 shadow-[var(--shadow-card)]">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                     Name *
@@ -185,10 +254,18 @@ export const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full">
-                  Send Message
+                <Button 
+                  onClick={handleSubmit}
+                  size="lg" 
+                  className="w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
-              </form>
+                <p className="text-xs text-center text-muted-foreground">
+                  Your message will be sent directly to our email
+                </p>
+              </div>
             </div>
           </div>
         </div>
