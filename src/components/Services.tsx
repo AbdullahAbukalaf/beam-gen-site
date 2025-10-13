@@ -1,6 +1,7 @@
 import { Zap, Settings, Wrench, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-
+import { Service } from "@/data/services.data"; // ← use shared data
+import { Link } from "react-router-dom"
 const services = [
   {
     id: 1,
@@ -12,6 +13,7 @@ const services = [
     imageUrl: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80",
     link: "/services/design-manufacturing",
     tags: ["Design", "Manufacturing", "Painting", "Quality Control"],
+    slug: "design-manufacturing",
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const services = [
     imageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80",
     link: "/services/cnc-laser-cutting",
     tags: ["Precision", "CNC", "Laser", "Metal Cutting"],
+    slug: "cnc-laser-cutting",
   },
   {
     id: 3,
@@ -34,6 +37,7 @@ const services = [
     imageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80",
     link: "/services/shear-stud-solutions",
     tags: ["Welding", "On-Site", "Structural", "Strength"],
+    slug: "shear-stud-solutions",
   },
 ];
 
@@ -105,9 +109,10 @@ export function Services() {
     return "scale-90 opacity-0";
   };
 
-  const handleCardClick = (link) => {
+  const handleCardClick = (slug: string) => {
     // Simulate navigation - in real app this would use Next.js router or window.location
-    alert(`Navigating to: ${link}\n\nIn a real application, this would open a new page with detailed service information.`);
+    // alert(`Navigating to: ${link}\n\nIn a real application, this would open a new page with detailed service information.`);
+    window.location.href = `/services/${slug}`;
   };
 
   return (
@@ -144,7 +149,7 @@ export function Services() {
                 >
                   <div
                     className="overflow-hidden bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-[520px] flex flex-col cursor-pointer"
-                    onClick={() => handleCardClick(service.link)}
+                    onClick={() => handleCardClick(service.slug)}
                   >
                     {/* Image Header */}
                     <div
@@ -181,7 +186,7 @@ export function Services() {
                         {service.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium"
+                            className="px-3 py-1 bg-blue-50 text-primary rounded-full text-xs font-medium"
                           >
                             {tag}
                           </span>
@@ -190,15 +195,15 @@ export function Services() {
 
                       {/* Learn More Link */}
                       <button
-                        className="text-blue-600 flex items-center font-medium hover:text-blue-700 relative group"
+                        className="text-primary flex items-center font-medium hover:text-primary/90 relative group"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleCardClick(service.link);
+                          handleCardClick(service.slug);
                         }}
                       >
-                        <span className="relative z-10">Learn more</span>
+                        <span className="relative z-10"><Link to={`/services/${service.slug}`} className="...">Learn more</Link></span>
                         <ArrowRight className="ml-2 w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-                        <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                        <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                       </button>
                     </div>
                   </div>
@@ -230,7 +235,7 @@ export function Services() {
                 key={idx}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   active === idx
-                    ? "bg-blue-600 w-8"
+                    ? "bg-primary w-8"
                     : "bg-gray-300 w-2 hover:bg-gray-400"
                 }`}
                 onClick={() => setActive(idx)}
@@ -249,7 +254,7 @@ export function Services() {
             {materials.map((material, index) => (
               <div
                 key={index}
-                className="px-6 py-3 rounded-full border-2 border-gray-200 bg-white hover:border-blue-600 hover:shadow-lg transition-all duration-300 cursor-default"
+                className="px-6 py-3 rounded-full border-2 border-gray-200 bg-white hover:border-primary hover:shadow-lg transition-all duration-300 cursor-default"
               >
                 <span className="font-semibold text-gray-800">
                   {material.name}

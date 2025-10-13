@@ -11,7 +11,6 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 const Index = () => {
   return (
     <div className="min-h-screen">
-      <Navigation />
       <main>
         <Hero />
         <About />
@@ -20,7 +19,6 @@ const Index = () => {
         <Clients />
         <Contact />
       </main>
-      <Footer />
       <ScrollToTop />
     </div>
   );

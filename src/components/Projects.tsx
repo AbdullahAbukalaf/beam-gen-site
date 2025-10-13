@@ -95,29 +95,29 @@ const ProjectCard = ({ project, index, onClick }: { project: typeof projects[0],
         </div>
 
         {/* Tonnage badge */}
-        <div className="absolute top-4 right-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
+        <div className="absolute top-4 right-4 bg-gradient-to-r from-primary to-primary-foreground text-dark px-4 py-2 rounded-full font-bold shadow-lg">
           {tonnageNum.toLocaleString()} T
         </div>
 
         {/* Project icon */}
         <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
-          <Building2 className="h-6 w-6 text-blue-600" />
+          <Building2 className="h-6 w-6 text-primary" />
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6 space-y-4 bg-white">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
             {project.name}
           </h3>
-          <div className="h-1 w-16 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-300 group-hover:w-24" />
+          <div className="h-1 w-16 bg-gradient-to-r from-primary to-primary-foreground rounded-full transition-all duration-300 group-hover:w-24" />
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-              <Users className="h-4 w-4 text-blue-600" />
+              <Users className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Client</p>
@@ -127,7 +127,7 @@ const ProjectCard = ({ project, index, onClick }: { project: typeof projects[0],
 
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-              <Package className="h-4 w-4 text-blue-600" />
+              <Package className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1">
               <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Scope</p>
@@ -239,7 +239,7 @@ export const Projects = () => {
               <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
                 OUR PROJECTS
               </h2>
-              <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-blue-400 mx-auto rounded-full mb-6" />
+              <div className="h-1.5 w-24 bg-gradient-to-r from-primary to-primary-foreground mx-auto rounded-full mb-6" />
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Delivering excellence across diverse industries with proven track record
               </p>
