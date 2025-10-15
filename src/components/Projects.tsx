@@ -1,6 +1,6 @@
 import { Building2, Users, Package, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const projects = [
   {
@@ -46,6 +46,60 @@ const projects = [
     images: ["/Project/FFDMIL2.jpg", "/Project/FFDMIL3.jpg"]
   },
 ];
+
+const Counter = ({ target, duration = 2000 }: { target: number, duration?: number }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const counterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const startTime = Date.now();
+    const endTime = startTime + duration;
+
+    const updateCount = () => {
+      const now = Date.now();
+      const progress = Math.min((now - startTime) / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      
+      setCount(Math.floor(easeOutQuart * target));
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCount);
+      } else {
+        setCount(target);
+      }
+    };
+
+    requestAnimationFrame(updateCount);
+  }, [isVisible, target, duration]);
+
+  return (
+    <div ref={counterRef}>
+      {count.toLocaleString()}
+    </div>
+  );
+};
 
 const ProjectCard = ({ project, index, onClick }: { project: typeof projects[0], index: number, onClick: () => void }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -94,9 +148,9 @@ const ProjectCard = ({ project, index, onClick }: { project: typeof projects[0],
           ))}
         </div>
 
-        {/* Tonnage badge */}
+        {/* Tonnage badge with counter */}
         <div className="absolute top-4 right-4 bg-gradient-to-r from-primary to-primary-foreground text-dark px-4 py-2 rounded-full font-bold shadow-lg">
-          {tonnageNum.toLocaleString()} T
+          <Counter target={tonnageNum} /> T
         </div>
 
         {/* Project icon */}
