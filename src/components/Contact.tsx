@@ -38,7 +38,7 @@ export const Contact = () => {
       formDataToSend.append('_template', 'table');
       
       // Send via fetch to stay on the same page
-      const response = await fetch('https://formsubmit.co/ajax/moathkoush@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/sales@smartbeams.net', {
         method: 'POST',
         body: formDataToSend,
         headers: {
@@ -92,7 +92,7 @@ export const Contact = () => {
                     Call Now
                   </Button>
                   <Button
-                    onClick={() => window.location.href = 'mailto:moathkoush@gmail.com'}
+                    onClick={() => window.location.href = 'mailto:sales@smartbeams.net'}
                     className="flex-1 min-w-[140px]"
                     variant="secondary"
                   >
@@ -126,9 +126,10 @@ export const Contact = () => {
                     </div>
                     <div>
                       <p className="font-medium text-dark mb-1">Email</p>
-                      <p className="text-sm text-muted-foreground">moathkoush@gmail.com</p>
+                      <p className="text-sm text-muted-foreground">sales@smartbeams.net</p>
                       <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
-                      <p className="text-sm text-muted-foreground">Abdulaziz@smartbeams.net</p>
+                      <p className="text-sm text-muted-foreground">abdulaziz@smartbeams.net</p>
+                       <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
                     </div>
                   </div>
 
