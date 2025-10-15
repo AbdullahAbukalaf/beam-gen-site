@@ -43,7 +43,7 @@ export const services: Service[] = [
     title: "CNC Laser Cutting",
     description:
       "CNC laser cutting with extreme precision. Specialized in sheet metal cutting with high thickness, art metal cutting, punching and laser combination, panel bending, corner forming, engraving, and laser marking.",
-    imageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80",
+    imageUrl: "/ServiceImage/covercnc.jpg",
     tags: ["Precision", "CNC", "Laser", "Metal Cutting"],
     galleryImages: [
       "/ServiceImage/IMG-20251011-WA0070.jpg",
