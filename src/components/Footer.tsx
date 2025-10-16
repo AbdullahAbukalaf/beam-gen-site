@@ -1,23 +1,52 @@
 import { Mail, MapPin, Phone, Linkedin } from "lucide-react";
 import { MessageCircle } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useCallback, useEffect } from "react";
 
 export const Footer = () => {
+  const navigate = useNavigate();
+  const { pathname, hash } = useLocation();
+  const onHome = pathname === "/";
+
+  // Smooth scroll helper
+  const scrollToId = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  // Auto-scroll if URL has hash (#about, #services, etc.)
+  useEffect(() => {
+    if (hash?.startsWith("#")) {
+      const id = hash.replace("#", "");
+      const t = setTimeout(() => scrollToId(id), 50);
+      return () => clearTimeout(t);
+    }
+  }, [hash, scrollToId]);
+
+  const handleLinkClick = (href: string) => {
+    const id = href.replace("#", "");
+    if (onHome) {
+      scrollToId(id);
+    } else {
+      navigate(`/#${id}`); // go home first
+      setTimeout(() => scrollToId(id), 80);
+    }
+  };
+
   return (
     <footer className="bg-[#0A0A0A] text-primary-foreground py-12 border-t border-primary/20">
       <div className="container px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-black mb-4 text-primary">
-              SMART BEAMS
-            </h3>
+            <h3 className="text-xl font-black mb-4 text-primary">SMART BEAMS</h3>
             <p className="text-sm text-secondary-foreground leading-relaxed mb-4">
-              Smart Beams Steel Industrials Factory - Your comprehensive partner 
+              Smart Beams Steel Industrials Factory - Your comprehensive partner
               in structural steel excellence.
             </p>
             <div className="flex gap-3">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/smart-beams-steel-industrials-factory-steel-fabrication-and-cnc-fiber-laser-services-b5604635a/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300"
@@ -41,16 +70,13 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              {["About", "Services", "Projects", "Clients", "Contact"].map((item) => (
+              {["about", "services", "projects", "clients", "contact"].map((item) => (
                 <li key={item}>
                   <button
-                    onClick={() => {
-                      const element = document.getElementById(item.toLowerCase());
-                      element?.scrollIntoView({ behavior: "smooth" });
-                    }}
+                    onClick={() => handleLinkClick(`#${item}`)}
                     className="text-secondary-foreground hover:text-primary transition-colors"
                   >
-                    {item}
+                    {item.charAt(0).toUpperCase() + item.slice(1)}
                   </button>
                 </li>
               ))}
@@ -79,7 +105,7 @@ export const Footer = () => {
 
         <div className="pt-8 border-t border-primary/20">
           <p className="text-center text-sm text-secondary-foreground">
-            © 2025 Smart Beams Steel Industrials Factory. 
+            © 2025 Smart Beams Steel Industrials Factory.
             All rights reserved. | ISO 9001:2015 & ISO 14001:2015 Certified
           </p>
         </div>

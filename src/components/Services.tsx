@@ -64,11 +64,11 @@ export function Services() {
       ([entry]) => setIsInView(entry.isIntersecting),
       { threshold: 0.2 }
     );
-    
+
     if (carouselRef.current) {
       observer.observe(carouselRef.current);
     }
-    
+
     return () => observer.disconnect();
   }, []);
 
@@ -194,7 +194,7 @@ export function Services() {
                       </div>
 
                       {/* Learn More Link */}
-                      <button
+                      {/* <button
                         className="text-primary flex items-center font-medium hover:text-primary/90 relative group"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -204,7 +204,24 @@ export function Services() {
                         <span className="relative z-10"><Link to={`/services/${service.slug}`} className="...">Learn more</Link></span>
                         <ArrowRight className="ml-2 w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
                         <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                      </button> */}
+                      {/* Learn More Link */}
+                    <div className="mt-2 flex justify-center md:justify-start">
+                      <button
+                        className="text-primary flex items-center font-medium hover:text-primary/90 relative group"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCardClick(service.slug);
+                        }}
+                      >
+                        <span className="relative z-10">
+                          <Link to={`/services/${service.slug}`} className="">Learn more</Link>
+                        </span>
+                        <ArrowRight className="ml-2 w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
+                        <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                       </button>
+                    </div>
+
                     </div>
                   </div>
                 </div>
@@ -213,7 +230,7 @@ export function Services() {
           </div>
 
           {/* Navigation Buttons */}
-          <button
+          {/* <button
             className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white z-30 shadow-lg transition-all hover:scale-110"
             onClick={() => setActive((prev) => (prev - 1 + services.length) % services.length)}
             aria-label="Previous service"
@@ -226,18 +243,38 @@ export function Services() {
             aria-label="Next service"
           >
             <ChevronRight className="w-6 h-6" />
+          </button> */}
+          {/* Navigation Buttons */}
+          <button
+            className=" absolute left-4 top-1/2 -translate-y-1/2 md:top-1/2 md:-translate-y-1/2 top-auto bottom-20 translate-y-0
+                       w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white
+                       z-30 shadow-lg transition-all hover:scale-110"
+            onClick={() => setActive((prev) => (prev - 1 + services.length) % services.length)}
+            aria-label="Previous service"
+          >
+            <ChevronLeft className="w-6 h-6" />
           </button>
+
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 md:top-1/2 md:-translate-y-1/2 top-auto bottom-20 translate-y-0
+                      w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white
+                      z-30 shadow-lg transition-all hover:scale-110"
+            onClick={() => setActive((prev) => (prev + 1) % services.length)}
+            aria-label="Next service"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
 
           {/* Dots Indicator */}
           <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center space-x-3 z-30">
             {services.map((_, idx) => (
               <button
                 key={idx}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  active === idx
+                className={`h-2 rounded-full transition-all duration-300 ${active === idx
                     ? "bg-primary w-8"
                     : "bg-gray-300 w-2 hover:bg-gray-400"
-                }`}
+                  }`}
                 onClick={() => setActive(idx)}
                 aria-label={`Go to service ${idx + 1}`}
               />

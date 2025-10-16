@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { services } from "@/data/services.data";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import { useEffect } from "react";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export default function ServiceDetail() {
   const { slug } = useParams();
@@ -196,6 +197,7 @@ export default function ServiceDetail() {
           </Link>
         </div>
       </div>
+      <ScrollToTop />
     </section>
   );
 }
