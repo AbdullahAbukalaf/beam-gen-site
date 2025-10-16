@@ -3,75 +3,65 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { sendFormSubmit } from "@/lib/sendFormSubmit";
 
 export const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [showQR, setShowQR] = useState(false);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // anti-spam “time to fill” (bots submit instantly)
+  const startedAtRef = useRef<number>(Date.now());
+  const HONEYPOT_FIELD = "_honey";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.message) {
       toast.error("Please fill in all required fields");
       return;
     }
-    
+
+    // optional: minimum 3 seconds to fill
+    const elapsed = Date.now() - startedAtRef.current;
+    const tooFast = elapsed < 3000;
+
     setIsSubmitting(true);
-    
-    try {
-      // Create form data
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('phone', formData.phone || 'Not provided');
-      formDataToSend.append('message', formData.message);
-      formDataToSend.append('_subject', `New Contact Form Submission from ${formData.name}`);
-      formDataToSend.append('_captcha', 'false');
-      formDataToSend.append('_template', 'table');
-      
-      // Send via fetch to stay on the same page
-      const response = await fetch('https://formsubmit.co/ajax/sales@smartbeams.net', {
-        method: 'POST',
-        body: formDataToSend,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      const result = await response.json();
-      
-      if (response.ok) {
-        toast.success("Message sent successfully! We'll get back to you soon.");
-        setFormData({ name: "", email: "", phone: "", message: "" });
-      } else {
-        toast.error("Failed to send message. Please try again.");
+    const result = await sendFormSubmit(
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || "Not provided",
+        message: formData.message,
+        [HONEYPOT_FIELD]: tooFast ? "robot" : "", // fill honeypot if too fast
+      },
+      {
+        to: "sales@smartbeams.net", // <— your inbox
+        subject: `New Contact Form Submission from ${formData.name}`,
+        template: "table",
+        captcha: false,
+        // autoresponse: "Thanks! We received your message and will reply shortly.",
       }
-    } catch (error) {
-      console.error('Error sending email:', error);
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+    );
+
+    if (result.ok) {
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      startedAtRef.current = Date.now();
+    } else {
+      toast.error(`Failed to send message. ${result.error ?? "Please try again."}`);
     }
+
+    setIsSubmitting(false);
   };
 
   return (
     <section id="contact" className="py-24 bg-[#f1eeee]">
       <div className="container px-6 lg:px-8">
         <div className="max-auto opacity-100">
-          <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">
-            CONTACT US
-          </h2>
-          <p className="text-lg text-dark text-center mb-16">
-            Ready to start your project? Get in touch with us today
-          </p>
+          <h2 className="text-4xl md:text-5xl font-black text-dark mb-4 text-center">CONTACT US</h2>
+          <p className="text-lg text-dark text-center mb-16">Ready to start your project? Get in touch with us today</p>
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
@@ -80,7 +70,7 @@ export const Contact = () => {
                 <h3 className="text-2xl font-bold text-dark mb-6">
                   Get In Touch
                 </h3>
-                
+
                 {/* Quick Action Buttons */}
                 <div className="flex flex-wrap gap-3 mb-6">
                   <Button
@@ -129,7 +119,7 @@ export const Contact = () => {
                       <p className="text-sm text-muted-foreground">sales@smartbeams.net</p>
                       <p className="text-sm text-muted-foreground">info@smartbeams.net</p>
                       <p className="text-sm text-muted-foreground">abdulaziz@smartbeams.net</p>
-                       <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
+                      <p className="text-sm text-muted-foreground">subhi@smartbeams.net</p>
                     </div>
                   </div>
 
@@ -169,7 +159,7 @@ export const Contact = () => {
                   <div className="mt-4 p-6 rounded-lg bg-white border-2 border-primary/20 text-center transition-all duration-300">
                     <p className="text-sm font-medium text-dark mb-3">Scan to Get Directions</p>
                     <div className="inline-block p-4 bg-white rounded-lg">
-                      <img 
+                      <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://www.google.com/maps?q=26.451778,50.016528')}`}
                         alt="Location QR Code"
                         className="w-48 h-48"
@@ -183,27 +173,36 @@ export const Contact = () => {
 
                 {/* Google Map */}
                 <div className="mt-6 rounded-lg overflow-hidden border-2 border-primary/20">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3569.8234567890123!2d50.016528!3d26.451778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDI3JzA2LjQiTiA1MMKwMDEnMDAuNSJF!5e0!3m2!1sen!2s!4v1234567890"
-                  width="100%"
-                  height="250"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Smart Beams Location"
-                />
-              </div>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3569.8234567890123!2d50.016528!3d26.451778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDI3JzA2LjQiTiA1MMKwMDEnMDAuNSJF!5e0!3m2!1sen!2s!4v1234567890"
+                    width="100%"
+                    height="250"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Smart Beams Location"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-card/50 border-2 border-primary/20 rounded-xl p-8 shadow-[var(--shadow-card)]">
+            <form onSubmit={handleSubmit} className="bg-card/50 border-2 border-primary/20 rounded-xl p-8 shadow-[var(--shadow-card)]">
               <div className="space-y-6">
+                {/* Honeypot field (hidden from users) */}
+                <input
+                  type="text"
+                  name="_honey"
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  onChange={() => { }} // nothing
+                />
+
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                    Name *
-                  </label>
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">Name *</label>
                   <Input
                     id="name"
                     required
@@ -214,9 +213,7 @@ export const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    Email *
-                  </label>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">Email *</label>
                   <Input
                     id="email"
                     type="email"
@@ -228,9 +225,7 @@ export const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                    Phone
-                  </label>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">Phone</label>
                   <Input
                     id="phone"
                     type="tel"
@@ -241,9 +236,7 @@ export const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Message *
-                  </label>
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">Message *</label>
                   <Textarea
                     id="message"
                     required
@@ -254,19 +247,14 @@ export const Contact = () => {
                   />
                 </div>
 
-                <Button 
-                  onClick={handleSubmit}
-                  size="lg" 
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
                   Your message will be sent directly to our email
                 </p>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
